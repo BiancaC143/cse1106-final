@@ -5,23 +5,24 @@
 #define PIN 17
 typedef struct
 {
-    int MIN_TEMP = 68;
-    int MAX_TEMP = 76;
+    double MIN_TEMP;
+    double MAX_TEMP;
 } Range;
 
-int calcAverage(int TempArray[]);
-int dispayTemps();
-void ChangeTempRange(Range *temp_range);
+double calcAverage(double TempArray[]);
+void ChangeTempRange(Range *TempRange);
 
 
 int main(void)
 {
+
     double temp;
     char status[7];
     double RecTemp[20] = {0};
     char buffer[10];
     gpioInitialise();
-    Range TempRange;
+    
+    Range TempRange = {68, 76};
     FILE *StatusReport;
     int Flag = 1;
     StatusReport = fopen("StatusFile.txt","w+");
@@ -35,17 +36,8 @@ int main(void)
 
     while(Flag)
     {
+        gpioWrite(PIN, 0);
         char aw;
-        printf("do you want to change the temp Range? ");
-        scanf("%d", to);
-        if(aw == 'N')
-        {
-            Flag = 0;
-        }
-        else{
-            ChangeTempRange(TempRange);
-        }
-        
 
         printf("Enter classroom Temperature in Farenheit: ");
         scanf(" %lf", &temp);
@@ -53,29 +45,38 @@ int main(void)
 
         if(temp >= TempRange.MIN_TEMP && temp <= TempRange.MAX_TEMP)
         {
-            printf("Temp: %lf, Status: Normal\n", temp);
-            fprintf(StatusReport,"%lfF     Normal     OFF",temp);
+            printf("\nTemp: %lf, Status: Normal\n", temp);
+            fprintf(StatusReport," %lfF     Normal     OFF",temp);
             gpioWrite(PIN, 0);
         } 
         else 
         {
-            printf("Temp: %lf, Status: Warning\n", temp);
-            fprintf(StatusReport,"%lfF     Warning     ON",temp);
+            printf("\nTemp: %lf, Status: Warning\n", temp);
+            fprintf(StatusReport," %lfF     Warning     ON",temp);
             gpioWrite(PIN, 1);
         }
 
-        fclose(StatusReport);
+        
+        char aws;
+        printf("do you want to change the temp Range? \n");
+        scanf(" %c", &aws);
+        if(toupper(aws) == 'Y')
+        {
+            ChangeTempRange(&TempRange);
+        }
 
         
-        printf("Are you done modifing the temperature? Y/N");
-        scanf("%c", to);
 
-        if(aw == 'N')
+        char a;
+        printf("\nAre you done modifing the temperature? Y/N \n");
+        scanf(" %c", &a);
+
+        if(toupper(a) == 'Y')
         {
             Flag = 0;
         }
     }
-
+    fclose(StatusReport);
     gpioTerminate();
 }
 
@@ -88,24 +89,52 @@ double calcAverage(double TempArray[]){
         
     }
     double average = sum / i;
-    return double;
+    return average;
 }
 
-void ChangeTempRange(Range *temp_range)
+void ChangeTempRange(Range *TempRange)
 {
-    char aw;
-    printf("Do you want to change the range? Y/N");
-    if(toupper(aw) == 'Y')
-    {
-        int temp;
+        double temp;
         printf("whats the new minimum range?: ");
-        scanf("%d", &temp);
-        temp_range->MIN_TEMP = temp;
+        scanf(" %lf", &temp);
+        TempRange->MIN_TEMP = temp;
 
         printf("whats the new maximum range?: ");
-        scanf("%d", &temp);
-        temp_range->MAX_TEMP = temp;
-
-    }
+        scanf(" %lf", &temp);
+        TempRange->MAX_TEMP = temp;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+#include <stdio.h>
+#include <unistd.h>
+#include <pigpio.h>
+#define PIN 17
+
+int main( int argc, char* argv[])
+{
+    gpioInitialise();
+    gpioSetMode(PIN,PI_OUTPUT);
+    gpioWrite(PIN,1);
+    getchar();
+    gpioWrite(PIN,0);
+    getchar();
+    gpioTerminate();
+    return 0;
+
+}
+*/
