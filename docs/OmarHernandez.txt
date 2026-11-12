@@ -1,1 +1,10 @@
-1 What was the 
+1 What was My primary contribution to the project.
+  I wrote the starting point of the program and did some of the debugging.
+2 What was the most challenging technical problem to solve?
+  Figuring out how to reset the LED for each run
+3 How did your team test or debug to solve a problem
+  We ran the code multiple times, tried every test case and walked line by line through the code.
+4 Which skills from 1106 were the most useful?
+  how to use breadboards and the raspberry pi
+5 what would you improve if you had more time?
+  i would definitely encapsulate more. many parts of the code could have turned into functions and improve the readability of the program.
