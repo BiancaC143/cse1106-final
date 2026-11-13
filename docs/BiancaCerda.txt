@@ -1,0 +1,14 @@
+1. What was your primary contribution to the project?
+I helped out on the code, on the debugging and collaborated with my partner.
+
+2. What was the most challenging technical problem your team encountered?
+Running the functions, the program kept skipping them.
+
+3. How did your team use testing or debugging to solve a problem?
+We ran through the program again and again when fixing each one, it helped us know what to fix.
+
+4. Which skills from CSE 1106 were most useful?
+The Circuit lab (lab 4 ) since we were working with circuits, it was nice to have that background knowledge going into the project
+
+5. What would you improve if you had more time?
+Making the program more presentable in adding more functions.
